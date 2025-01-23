@@ -1,5 +1,7 @@
 import random
 import matplotlib.pyplot as plt
+import time
+import numpy as np
 
 def segment_generator(num):
     segments_list = []
@@ -9,7 +11,6 @@ def segment_generator(num):
     return segments_list
 
 segments = segment_generator(1000)
-print(segments)
 
 def plot_segments(segments_list, title):
     plt.title(title)
@@ -29,10 +30,31 @@ def find_segments_inside_rectangle(segments, rectangle):
             inside_segments.append(segment)
     return inside_segments
 
+def find_segments_inside_rectangle_using_numpy(segments, rectangle):
+    "use numpy to filter segments inside rectangles just like the above function"
+    start_x, start_y, end_x, end_y = rectangle
+    segments_np = np.array(segments)
+    inside_segments_np = segments_np[(segments_np[:,0] >= start_x) & (segments_np[:,0] <= end_x) & (segments_np[:,1] >= start_y) & (segments_np[:,1] <= end_y) & (segments_np[:,2] >= start_x) & (segments_np[:,2] <= end_x) & (segments_np[:,3] >= start_y)
+                                     & (segments_np[:,3] <= end_y)]
+    return inside_segments_np.tolist()
+
 rect = [4,4,6,10]
+
+# NO NUMPY
+start_time = time.time()
 interested_segments = find_segments_inside_rectangle(segments, rect)
-    
-print(interested_segments)
+end_time = time.time()
+print(f"Normal Time taken: {end_time - start_time} seconds")
+
+# WITH NUMPY
+start_time = time.time()
+interested_segments_np = find_segments_inside_rectangle_using_numpy(segments, rect)
+end_time = time.time()
+print(f"Numpy Time taken: {end_time - start_time} seconds")
+
+# Normal Time taken: 4.315376281738281e-05 seconds
+# Numpy Time taken: 0.00020003318786621094 seconds
+
 plt.subplot(1,2,1)
 plt.grid()
 plot_segments(segments, "All Lines")
