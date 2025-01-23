@@ -20,4 +20,5 @@ def plot_segments(segments):
         plt.plot([x1, x2], [y1, y2], color=color, lw=thickness)
     
 plot_segments(segments)
+plt.grid()
 plt.show()
