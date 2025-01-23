@@ -12,10 +12,8 @@ segments = segment_generator(1000)
 print(segments)
 
 def plot_segments(segments_list, title):
-    plt.figure(figsize=(10,10))
     plt.title(title)
     plt.axis([0, 10, 0, 10])
-    # plot the segments with random color and thickness. The color is represented as a tuple (R,G,B) and thickness as a float.
     for i, segment in enumerate(segments_list):
         x1, y1, x2, y2 = segment
         color = (random.uniform(0,1),random.uniform(0,1),random.uniform(0,1),)
@@ -35,7 +33,10 @@ rect = [4,4,6,10]
 interested_segments = find_segments_inside_rectangle(segments, rect)
     
 print(interested_segments)
-plot_segments(interested_segments, "Filtered Lines")
-# plot_segments(segments, "All Lines")
+plt.subplot(1,2,1)
 plt.grid()
+plot_segments(segments, "All Lines")
+plt.subplot(1,2,2)
+plt.grid()
+plot_segments(interested_segments, "Filtered Lines")
 plt.show()
